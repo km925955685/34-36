@@ -1,0 +1,475 @@
+<html>
+    <head>
+
+    </head>
+
+    <body>
+            <div id="box1">
+                    <span>商品:</span>
+                    <input type="checkbox" class="product" value="手机" checked="true">手机
+                    <input type="checkbox" class="product" value="笔记本">笔记本
+                    <input type="checkbox" class="product" value="智能音箱">智能音箱
+                    <input type="checkbox" class="SelectAll"  id="SelectAll1" value="全选">全选
+                </div>
+                <div id=box2>
+                    <span>地区:</span>
+                    <input type="checkbox" class="region" value="华东" checked="true">华东
+                    <input type="checkbox" class="region" value="华南">华南
+                    <input type="checkbox" class="region" value="华北">华北 
+                    <input type="checkbox" class="SelectAll" id="SelectAll2" value="全选">全选
+                </div>
+                <div id="table-wrapper">
+               </div>
+               <canvas id="tutorial" width="450" height="250"></canvas>
+            
+        <?xml version="1.0" standalone="no"?>
+
+        <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+        "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+        <svg width=450 height=250 version="1.1" id="svg1"
+        xmlns="http://www.w3.org/2000/svg">
+        
+        <rect width="450" height="250" stroke-width=1 fill=white stroke= black
+        />
+
+        <line x1=50 y1=200 x2=450 y2=200 stroke-width=1 stroke= black />
+        <!--横轴-->
+        <line x1=50 y1=0 x2=50 y2=200 stroke-width=1 stroke= black />
+        <!--纵轴-->
+        <line x1=80 y1=200 x2=80 y2=210 stroke-width=1 stroke= black />
+        <line x1=110 y1=200 x2=110 y2=210 stroke-width=1 stroke= black />
+        <line x1=140 y1=200 x2=140 y2=210 stroke-width=1 stroke= black />
+        <line x1=170 y1=200 x2=170 y2=210 stroke-width=1 stroke= black />
+        <line x1=200 y1=200 x2=200 y2=210 stroke-width=1 stroke= black />
+        <line x1=230 y1=200 x2=230 y2=210 stroke-width=1 stroke= black />
+        <line x1=260 y1=200 x2=260 y2=210 stroke-width=1 stroke= black />
+        <line x1=290 y1=200 x2=290 y2=210 stroke-width=1 stroke= black />
+        <line x1=320 y1=200 x2=320 y2=210 stroke-width=1 stroke= black />
+        <line x1=350 y1=200 x2=350 y2=210 stroke-width=1 stroke= black />
+        <line x1=380 y1=200 x2=380 y2=210 stroke-width=1 stroke= black />
+        <line x1=410 y1=200 x2=410 y2=210 stroke-width=1 stroke= black />
+        <line x1=440 y1=200 x2=440 y2=210 stroke-width=1 stroke= black />
+        <!--纵坐标-->
+        
+        <line x1=40 y1=20 x2=50 y2=20 stroke-width=1 stroke= black />
+        <line x1=40 y1=40 x2=50 y2=40 stroke-width=1 stroke= black />
+        <line x1=40 y1=60 x2=50 y2=60 stroke-width=1 stroke= black />
+        <line x1=40 y1=80 x2=50 y2=80 stroke-width=1 stroke= black />
+        <line x1=40 y1=100 x2=50 y2=100 stroke-width=1 stroke= black />
+        <line x1=40 y1=120 x2=50 y2=120 stroke-width=1 stroke= black />
+        <line x1=40 y1=140 x2=50 y2=140 stroke-width=1 stroke= black />
+        <line x1=40 y1=160 x2=50 y2=160 stroke-width=1 stroke= black />
+        <line x1=40 y1=180 x2=50 y2=180 stroke-width=1 stroke= black />
+
+        
+
+        </svg>
+        <script>
+             let sourceData = [{
+   product: "手机",
+   region: "华东",
+   sale: [120, 100, 140, 160, 180, 185, 190, 210, 230, 245, 255, 270]
+}, {
+   product: "手机",
+   region: "华北",
+   sale: [80, 70, 90, 110, 130, 145, 150, 160, 170, 185, 190, 200]
+}, {
+   product: "手机",
+   region: "华南",
+   sale: [220, 200, 240, 250, 260, 270, 280, 295, 310, 335, 355, 380]
+}, {
+   product: "笔记本",
+   region: "华东",
+   sale: [50, 60, 80, 110, 30, 20, 70, 30, 420, 30, 20, 20]
+}, {
+   product: "笔记本",
+   region: "华北",
+   sale: [30, 35, 50, 70, 20, 15, 30, 50, 710, 130, 20, 20]
+}, {
+   product: "笔记本",
+   region: "华南",
+   sale: [80, 120, 130, 140, 70, 75, 120, 90, 550, 120, 110, 100]
+}, {
+   product: "智能音箱",
+   region: "华东",
+   sale: [10, 30, 4, 5, 6, 5, 4, 5, 6, 5, 5, 25]
+}, {
+   product: "智能音箱",
+   region: "华北",
+   sale: [15, 50, 15, 15, 12, 11, 11, 12, 12, 14, 12, 40]
+}, {
+   product: "智能音箱",
+   region: "华南",
+   sale: [10, 40, 10, 6, 5, 6, 8, 6, 6, 6, 7, 26]
+}]
+
+        var box1=document.getElementById("box1");
+        var box2=document.getElementById("box2");
+        var flagA=0;
+        var flagB=0
+        var AllProduct = document.getElementsByClassName("product");//收集product
+        var SelectAll1=document.getElementById("SelectAll1")
+        var Allregion = document.getElementsByClassName("region");//收集product
+        var SelectAll2=document.getElementById("SelectAll2");
+        var address1;
+        var address2;
+        var data;
+        var wrapper=document.getElementById("table-wrapper")
+        var SelectedData;
+        
+        window.addEventListener("click",function check1() {
+           // console.log("kuma")
+            var ev = window.event;
+            var target = ev.target; 
+            AllProduct = document.getElementsByClassName("product");//收集product
+            SelectAll1=document.getElementById("SelectAll1")
+                       
+            if(target.id =="SelectAll1"){
+                for(var i=0 ; i < AllProduct.length ; i++){
+                    AllProduct[i].checked="true"
+                }
+            }//全选功能            
+            for(var i=0 ; i < AllProduct.length ; i++){
+                var status=String(AllProduct[i].checked)
+                //console.log(status) 
+                    if(status =="true"){
+                        flagA+=1
+                    }//判断选中个数                       
+                }
+            //console.log(flagA)
+            if(flagA == 3){
+                SelectAll1.checked="true"
+                //console.log("kuma1")
+            }//处理全选的自动选中
+            else{
+                SelectAll1.checked=""
+
+            }  
+           
+           if(flagA==0){
+                target.checked="true"
+            }    
+                flagA=0   //重置计数器 
+                TableMaker()
+            }
+            )
+
+        
+        
+        
+        window.addEventListener("click",function check2() {
+           // console.log("kuma")
+            var ev = window.event;
+            var target = ev.target;
+            Allregion = document.getElementsByClassName("region");//收集product
+            SelectAll2=document.getElementById("SelectAll2")           
+            
+            if(target.id =="SelectAll2"){
+
+                for(var i=0 ; i < Allregion.length ; i++){
+                    Allregion[i].checked="true"
+                    //console.log(Allregion[i])
+                }
+            }//全选功能            
+            for(var i=0 ; i < Allregion.length ; i++){
+                var status=String(Allregion[i].checked)
+                //console.log(status) 
+                    if(status =="true"){
+                        flagB+=1
+                    }//判断选中个数                       
+                }
+
+            if(flagB == 3){
+                SelectAll2.checked="true"
+            }//处理全选的自动选中
+            else{
+                SelectAll2.checked=""
+            }       
+           
+            if(flagB==0){
+                target.checked="true"
+            }    
+                flagB=0   //重置计数器 
+                TableMaker()
+            })
+
+
+
+
+        
+        //制造表头    
+        function TableMaker(){
+            data ="<table><th>商品</th><th>地区</th> <th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th> <th>9月</th><th>10月</th><th>11月</th><th>12月</th>"
+            for(var i=0 ; i < AllProduct.length ; i++){                    
+                    if(String(AllProduct[i].checked) == "true"){
+                        address1= AllProduct[i].value
+                        for(var o=0 ; o < Allregion.length ; o++){                    
+                            if(String(Allregion[o].checked) == "true"){
+                                address2= Allregion[o].value
+                                                                                                                                                                                                                                                  //console.log(address1+address2)
+                                get()}
+                                
+                    }
+                }
+        }}
+
+        function get() {
+               
+               var x;
+               for(x in sourceData){
+                //console.log(sourceData[x].region)
+                   if(sourceData[x].region == String(address2)){
+                    //console.log("kuma")                     
+                       if(sourceData[x].product == address1 ){
+                        //console.log("address2")
+                        SelectedData=sourceData[x]
+                        table()
+                        //console.log(sourceData)
+                       }                   
+               }               
+               wrapper.innerHTML=data               
+           }
+           }
+        
+           function table() {
+               //制造表头data ="<table><th>商品</th><th>地区</th> <th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th> <th>9月</th><th>10月</th><th>11月</th><th>12月</th>"
+               data = data +"<tr>"
+               var x  ;
+               var y
+               y=0
+               for(x in SelectedData){
+                   
+                  if(y <2){data = data +"<td>"+SelectedData[x]+"</td>";
+                  //console.log("1"+"y")
+                  }
+                  else{
+                      //console.log(y+'y')
+                      var z ;
+                      data2 = SelectedData[x]//把销售记录的数组存储一下
+                       for(z in data2){
+                           data = data +"<td>"+data2[z]+"</td>" 
+                       }
+                   }
+                   y=y+1
+                   //这里是一个很诡异的BUG。。用了if就不工作。。
+                   //data = data +"<td>"+SelectedData[x]+"</td>"
+               }}
+               TableMaker()
+
+            
+
+
+
+
+            /*function finmax(){
+
+            }
+            var maxNumber = "0"
+            var svg1 =document.getElementById("svg1");
+            var dataNumber =sourceData[0].sale
+            
+            for (x in dataNumber){
+                if(maxNumber < dataNumber[x]){
+                    maxNumber=dataNumber[x]
+                }
+            }//找最大*/
+            
+            /*var z=1
+            for (x in dataNumber){
+                
+                var rect = document.createElementNS( "http://www.w3.org/2000/svg", "rect" );//生成一个框
+                rect.setAttribute( "width", 2 );
+                rect.setAttribute( "height", 180/maxNumber*dataNumber[x] );
+                rect.setAttribute("x",49+30*z)
+                rect.setAttribute("y",200-180/maxNumber*dataNumber[x])
+                rect.setAttribute( "style", "fill:rgb(0,0,255);stroke-width:1;stroke:rgb(0,0,0)" );
+                svg1.appendChild( rect );
+                z+=1
+                //console.log(z)
+
+            }//制造柱体
+            */
+    
+           /*function draw() {
+            var canvas = document.getElementById('tutorial');
+            if (canvas.getContext) {
+            var ctx = canvas.getContext('2d');
+            ctx.fillRect(0, 0, 450, 250);
+            ctx.clearRect(1,1,448,248);
+            
+            ctx.beginPath();
+            ctx.moveTo(50, 0);
+            ctx.lineTo(50,200);
+            ctx.fill();
+            
+
+            ctx.beginPath();
+            ctx.moveTo(50,0);
+            ctx.lineTo(50,250);
+            ctx.lineTo(450,250)
+            ctx.closePath();
+            
+            }}
+            draw()*/
+
+
+
+
+
+
+
+
+ 
+  var canvas = document.getElementById('tutorial');
+  if (canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.lineTo(0,250);
+    ctx.lineTo(450,250);
+    ctx.lineTo(450,0);
+    ctx.closePath()
+    ctx.stroke()
+    //绘制边框
+
+    ctx.beginPath();
+    ctx.moveTo(50,0);
+    ctx.lineTo(50,200);
+    ctx.lineTo(450,200);
+    ctx.stroke();
+
+
+    ctx.beginPath()
+    for(var x="0";x<"13";x++){
+    ctx.moveTo(50+30*x,200)
+    ctx.lineTo(50+30*x,210)
+    //console.log("kuma")
+    }//绘制横坐标
+    
+    for(var x="0";x<"11";x++){
+    ctx.moveTo(40,20*x)
+    ctx.lineTo(50,20*x)
+    }}//绘制纵坐标
+
+    //ctx.moveTo(80,200-180/maxNumber*datanumber)
+    /*var y="0"
+        ctx.lineTo(80+30*x,200-180/maxNumber*datanumber)
+        ctx.moveTo(80+30*x+5,200-180/maxNumber*datanumber)
+        ctx.arc(80+30*x,200-180/maxNumber*datanumber,5,0,2*Math.PI,true)
+        ctx.moveTo(80+30*x,200-180/maxNumber*datanumber)
+        ctx.fill()*/
+    //存在未知BUG画圈会出现移动轨迹这个绘画系统很蠢。。画圆时。。应该要在开始画圆的地方。而不是圆心。否则会出现在圆内移动的鬼畜情况
+    function draw() {
+    var canvas = document.getElementById('tutorial');
+    if (canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+        ctx.lineTo(20+30*z,200-180/maxNumber*datanumber)
+        ctx.moveTo(20+30*z+5,200-180/maxNumber*datanumber)
+        ctx.arc(20+30*z,200-180/maxNumber*datanumber,5,0,2*Math.PI,true)
+        ctx.moveTo(20+30*z,200-180/maxNumber*datanumber)
+        
+        ctx.fill()
+    }
+
+    
+
+
+
+    ctx.stroke()
+    }
+    
+    draw()
+    
+    
+    //var区域
+    var AllTd
+    var datanumber
+    var z=1
+    var maxNumber = 0
+    var svg1 =document.getElementById("svg1");
+    
+    
+     window.addEventListener("mouseover",function move(){
+        var ev= window.event;
+        var target =ev.target;
+        //console.log("hi")
+        //console.log(String(target.parentNode.nodeName))
+        if(target.nodeName.toLocaleLowerCase() == 'td'){
+            //console.log(target.parentNode)
+            
+            var data = []
+            var Td=target.parentNode
+             AllTd=Td.children
+            //console.log(AllTd)
+           
+            clear() 
+          for (var i=2; i< AllTd.length; i++ ){ 
+                datanumber=Number(AllTd[i].textContent)
+                findmax()
+            }
+            console.log("max"+maxNumber)  
+
+            ctx.moveTo(80,200-180/maxNumber*AllTd[2].textContent)
+            console.log("kuma")
+            for (var i=2; i< AllTd.length; i++ ){ 
+                datanumber=AllTd[i].textContent
+                
+                column()
+                
+                draw()
+            }              
+            z=1;
+            maxNumber = 0
+            }      
+        })//这个获取了滑到的数据
+        
+        function findmax(){
+
+            if(maxNumber < datanumber){
+            maxNumber=datanumber
+            }}
+            
+        function column(){
+                var rect = document.createElementNS( "http://www.w3.org/2000/svg", "rect" );//生成一个框
+                rect.setAttribute( "width", 2 );
+                rect.setAttribute( "height", 180/maxNumber*datanumber );
+                rect.setAttribute("x",49+30*z)
+                rect.setAttribute("y",200-180/maxNumber*datanumber)
+                rect.setAttribute( "style", "fill:rgb(0,0,255);stroke-width:1;stroke:rgb(0,0,0)" );
+                svg1.appendChild( rect );
+                z+=1
+                console.log(180/maxNumber*datanumber)
+        }//制造柱形图
+        function clear(){
+            var rect = document.createElementNS( "http://www.w3.org/2000/svg", "rect" );//生成一个框
+                rect.setAttribute( "width",399 );
+                rect.setAttribute( "height", 199);
+                rect.setAttribute("x",51)
+                rect.setAttribute("y",1)
+                rect.setAttribute( "style", "fill:white;" );
+                svg1.appendChild( rect );
+            
+
+            var canvas = document.getElementById('tutorial');
+            if (canvas.getContext) {
+            var ctx2 = canvas.getContext('2d');
+
+            ctx2.beginPath()
+            ctx2.moveTo(51,0)
+            ctx2.lineTo(450,0)
+            ctx2.lineTo(450,199)
+            ctx2.lineTo(51,199)
+            ctx2.fillStyle = "white";
+
+            ctx2.fill()}
+        }//清除图像。防止堆叠
+
+
+            
+            
+            
+        </script>
+    </body>
+</html>
